@@ -16,14 +16,14 @@ class ScreenTest(TestCase):
         response = screen(request)
         html = response.content.decode('utf8')
 
-        self.assertTrue(html.startswith('<html>'))
+        self.assertTrue(html.startswith('<!DOCTYPE html>\n<html>'))
         self.assertIn('<title>Mini Maze</title>', html)
 
         if joined_players() == max_players:
             self.assertIn('<section id="maze">', html)
             
             self.assertEqual(html.count('<tr>'), height)
-            self.assertEqual(html.count('<td>'), width)
+            self.assertEqual(html.count('<td>'), width*height)
         else:
             self.assertIn('<h1>Waiting for {0} more players to join...</h1>'
                 .format(max_players-joined_players()), html)
