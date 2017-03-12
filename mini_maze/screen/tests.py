@@ -2,6 +2,7 @@ from settings import height, width, joined_players, max_players
 
 from django.core.urlresolvers import resolve
 from django.test import TestCase
+from django.http import HttpRequest
 
 from screen.views import screen
 
@@ -15,7 +16,7 @@ class ScreenTest(TestCase):
         response = screen(request)
         html = response.content.decode('utf8')
 
-        self.assertTrue(html.startswith('html'))
+        self.assertTrue(html.startswith('<html>'))
         self.assertIn('<title>Mini Maze</title>', html)
 
         if joined_players() == max_players:
@@ -29,4 +30,4 @@ class ScreenTest(TestCase):
 
             self.assertIn('<section id="waiting">', html)
 
-        self.assertTrue(html.endswith('html'))
+        self.assertTrue(html.endswith('</html>'))
