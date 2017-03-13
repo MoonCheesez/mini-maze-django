@@ -32,22 +32,19 @@ class PlayersJoinTest(TestCase):
 
         response = join(HttpRequest())
 
-        self.Fail("The response needs to be checked.")
-        self.assertEqual(response, 1)
+        self.assertEqual(response, "1")
 
         # [True, False, True, False] to [True, True, True, False]
         setup_players_joined_json([True, False, True, False])
 
         response = join(HttpRequest())
 
-        self.Fail("The response needs to be checked.")
-        self.assertEqual(response, 2)
+        self.assertEqual(response, "2")
 
     def test_disallow_player_join_after_maximum_players_reached(self):
         setup_players_joined_json([True]*4)
 
         response = join(HttpRequest())
 
-        self.Fail("The response needs to be checked.")
-        self.assertEqual(response, "full")
+        self.assertEqual(response, "max")
         self.assertEqual(fetch_players_joined(), [True]*4)
