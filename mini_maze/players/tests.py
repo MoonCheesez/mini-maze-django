@@ -6,7 +6,7 @@ from views import join, leave, reset
 from settings import players_json_filename, max_players
 import json
 
-class PlayersJoinTest(TestCase):
+class PlayersJoinAndLeaveTest(TestCase):
     def fetch_players_joined(self):
         players_json = json.load(players_json_filename)
         return players_json["players_joined"]
@@ -48,3 +48,15 @@ class PlayersJoinTest(TestCase):
 
         self.assertEqual(response, "max")
         self.assertEqual(fetch_players_joined(), [True]*4)
+
+    def test_player_with_correct_id_leaves(self):
+        setup_players_joined_json([True]*4)
+
+        leave(HttpRequest(), 2)
+        self.assertEqual(fetch_players_joined(), [True, False, True, True])
+
+        leave(HttpRequest(), 3)
+        self.assertEqual(fetch_players_joined(), [True, False, False, True])
+
+        leave(HttpRequest(), 1)
+        self.assertEqual(fetch_players_joined(), [False, False, False, True])
