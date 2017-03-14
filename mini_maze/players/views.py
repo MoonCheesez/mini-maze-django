@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 
 from django.views.decorators.csrf import csrf_exempt
 
-from settings import players_json_filename, maze_json_filename
+from settings import players_json_filename, maze_json_filename, height, width
 from setup import reset_all
 
 import json
@@ -56,6 +56,8 @@ def receive(request):
 
         with open(players_json_filename, "r") as f:
             players = json.load(f)
+        with open(maze_json_filename, "r") as f:
+            maze = json.load(f)["maze"]
 
         if players["move_number"]%4 != player_id%4:
             return
@@ -70,8 +72,7 @@ def receive(request):
         2 - right
         3 - down
         """
-        with open(maze_json_filename, "r") as f:
-            maze = json.load(f)["maze"]
+        player_pos = players["player_positions"][player_id]
 
         dx = [0, -1, 1, 0]
         dy = [-1, 0, 0, 1]
