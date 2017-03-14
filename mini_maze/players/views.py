@@ -1,13 +1,12 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from settings import players_json_filename
 from setup import reset_all
 
 import json
 
-# Create your views here.
 def join(request):
     with open(players_json_filename, "r") as f:
         players = json.load(f)
@@ -34,3 +33,33 @@ def leave(request, player_id):
 
 def reset(request):
     reset_all()
+
+def serve(request):
+    with open(players_json_filename, "r") as f:
+        players = json.load(f)
+
+    return JsonResponse(players)
+
+def receive(request):
+    if request.method == "POST":
+        data = request.POST
+        
+        player_id = data["player_no"]-1
+        moves = data["moves"]
+
+        with open(players_json_filename, "r") as f:
+            players = json.load(f)
+
+        if players["move_number"]%4 != player_id%4:
+            return
+
+        # Check if there are move values other than 0, 1, 2, 3, 4
+        if list(filter(lambda x: x not in range(4), moves)):
+            return
+
+
+        players["moves"] = moves
+        players["move_number"] += 1
+
+        with open(players_json_filename, "w") as f:
+            json.dump(players, f)
