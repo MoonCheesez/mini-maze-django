@@ -5,8 +5,11 @@ import json
 
 class PlayersJSONTest(TestCase):
     def setUp(self):
-        self.players_json = json.load(players_json_filename)
-        self.maze_json = json.load(maze_json_filename)
+        with open(players_json_filename, "r") as f:
+            self.players_json = json.load(f)
+
+        with open(maze_json_filename, "r") as f:
+            self.maze_json = json.load(f)
 
     def test_have_fields(self):
         self.assertIsNotNone(self.players_json["player_positions"])
