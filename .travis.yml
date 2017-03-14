@@ -10,4 +10,4 @@ install:
 before_script: cd mini_maze
 script: python manage.py test
 after_success:
-    - codecov
+    - codecov --token=796818ab-41d7-402d-9d26-b85ee31a2664
