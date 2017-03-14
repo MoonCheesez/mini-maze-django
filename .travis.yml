@@ -8,6 +8,7 @@ install:
     - pip install codecov
     - pip install -r requirements.txt
 before_script: cd mini_maze
-script: python manage.py test
+script:
+    - coverage run manage.py test
 after_success:
-    - codecov --token=796818ab-41d7-402d-9d26-b85ee31a2664
+    - codecov
