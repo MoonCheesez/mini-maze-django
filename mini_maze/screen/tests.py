@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.http import HttpRequest
 
 from settings import height, width, max_players, players_json_filename
+from setup import reset_all
 
 from screen.views import screen
 
@@ -18,6 +19,9 @@ def setup_players_joined_json(players_joined):
         json.dump(players_json, f)
 
 class ScreenTest(TestCase):
+    def setUp(self):
+        reset_all()
+
     def test_root_url_resolves_to_screen_page_view(self):
         root = resolve('/')
         self.assertEqual(root.func, screen)
