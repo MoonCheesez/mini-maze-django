@@ -1,4 +1,4 @@
-from settings import maze_json_filename, players_json_filename, height, width
+from settings import *
 
 import json
 import random
@@ -50,7 +50,7 @@ def reset_players_json():
 
     players = {
         "player_positions": player_positions,
-        "players_joined": 0,
+        "players_joined": [False]*max_players,
         "move_number": 0,
         "moves": []
     }
@@ -83,7 +83,6 @@ def reset_maze_json():
     with open(maze_json_filename, "w") as f:
         json.dump(maze, f)
 
-
-if __name__ == '__main__':
-    setup_players_json()
-    setup_maze_json()
+def reset_all():
+    reset_players_json()
+    reset_maze_json()
