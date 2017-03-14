@@ -33,10 +33,13 @@ class PlayersJSONTest(TestCase):
         for player in self.players_json["player_positions"]:
             self.assertEqual(len(player), 2)
 
-    def test_players_unique_positions(self):
-        positions = [tuple(x) for x in self.players_json["player_positions"]]
-        self.assertEqual(len(set(positions)),
-            len(self.players_json["player_positions"]))
+    def test_players_in_maze(self):
+        for position in self.players_json["player_positions"]:
+            x = position[0]
+            y = position[1]
+
+            self.assertLess(x, width)
+            self.assertLess(y, height)
 
     def test_players_not_in_walls(self):
         for position in self.players_json["player_positions"]:
@@ -46,13 +49,10 @@ class PlayersJSONTest(TestCase):
             # 0 is a wall
             self.assertNotEqual(self.maze_json["maze"][y][x], 0)
 
-    def test_players_in_maze(self):
-        for position in self.players_json["player_positions"]:
-            x = position[0]
-            y = position[1]
-
-            self.assertLess(x, width)
-            self.assertLess(y, height)
+    def test_players_unique_positions(self):
+        positions = [tuple(x) for x in self.players_json["player_positions"]]
+        self.assertEqual(len(set(positions)),
+            len(self.players_json["player_positions"]))
 
     def test_players_joined_within_settings_limits(self):
         self.assertLessEqual(self.players_json["players_joined"], max_players)
