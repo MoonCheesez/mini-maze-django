@@ -1,6 +1,5 @@
-height = None
-width = None
-max_players = None
-
-def joined_players():
-	pass
+height = 32
+width = 32
+max_players = 4
+maze_json_filename = "maze.json"
+players_json_filename = "players.json"
