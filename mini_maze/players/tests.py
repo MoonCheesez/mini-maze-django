@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.http import HttpRequest
 
-from players.views import join, leave, reset
+from players.views import join, leave, reset, serve, receive
 
 from settings import players_json_filename, max_players
 from setup import reset_all
@@ -70,3 +70,81 @@ class PlayersJoinAndLeaveTest(TestCase):
 
         leave(HttpRequest(), 1)
         self.assertEqual(fetch_players_joined(), [False, False, False, True])
+
+class PlayersJSONServedTest(TestCase):
+    def setUp(self):
+        reset_all()
+
+    def test_json_served_same(self):
+        # Very basic test that covers a small case
+        raw = serve(HttpRequest()).content.decode('utf8')
+        players = json.loads(raw)
+
+        with open(players_json_filename, "r") as f:
+            self.assertEqual(players, json.load(f))
+
+
+        setup_players_joined_json([True, False, False, False])
+        raw = serve(HttpRequest()).content.decode('utf8')
+        players = json.loads(raw)
+
+        with open(players_json_filename, "r") as f:
+            self.assertEqual(players, json.load(f))
+
+def move_player(player_id, moves):
+    request = HttpRequest()
+    request.method = "POST"
+    request.body = {
+        "player_no": player_id,
+        "moves": moves
+    }
+
+    receive(request)
+
+class PlayersMoveReceivedTest(TestCase):
+    def setUp(self):
+        reset_all()
+
+    def test_player_move_reflected_on_response(self):
+        valid_tests_data = [
+            (1, [0, 1, 2, 3]),
+            (2, [2, 3, 1, 0]),
+            (3, [0, 0, 1, 3, 2]),
+            (4, [1])
+        ]
+
+        for test in valid_tests_data:
+            player_id = test[0]
+            moves = test[1]
+
+            move_player(player_id, moves)
+
+            with open(players_json_filename, "r") as f:
+                players = json.load(f)
+
+            self.assertEqual(players["moves"], moves)
+            self.assertEqual(players["move_number"]%4, player_id%4)
+
+        reset_all()
+
+        invalid_test_data = [
+            (2, [0]),
+            (4, [1]),
+            (3, [2]),
+            (-1, [3]),
+            (1, [10]),
+        ]
+
+        with open(players_json_filename, "r") as f:
+            players_default = json.load(f)
+
+        for test in invalid_test_data:
+            player_id = test[0]
+            moves = test[1]
+
+            move_player(player_id, moves)
+
+            with open(players_json_filename, "r") as f:
+                players_after = json.load(f)
+
+            self.assertEqual(players_default, players_after)
