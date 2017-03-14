@@ -94,7 +94,7 @@ class PlayersJSONServedTest(TestCase):
 def move_player(player_id, moves):
     request = HttpRequest()
     request.method = "POST"
-    request.body = {
+    request.POST = {
         "player_no": player_id,
         "moves": moves
     }
