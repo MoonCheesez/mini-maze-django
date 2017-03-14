@@ -1,6 +1,8 @@
 from django.test import TestCase
 from django.http import HttpRequest
 
+from django.core.urlresolvers import resolve
+
 from players.views import join, leave, reset, serve, receive
 
 from settings import players_json_filename, max_players
@@ -25,6 +27,14 @@ def setup_players_joined_json(players_joined):
 class PlayersJoinAndLeaveTest(TestCase):
     def setUp(self):
         reset_all()
+
+    def test_join_resolves_to_join_view(self):
+        r = resolve('/join/')
+        self.assertEqual(r.func, join)
+
+    def test_leave_resolves_to_leave_view(self):
+        r = resolve('/leave/1')
+        self.assertEqual(r.func, leave)
 
     def test_reset_players(self):
         join(HttpRequest())
@@ -75,6 +85,10 @@ class PlayersJSONServedTest(TestCase):
     def setUp(self):
         reset_all()
 
+    def test_players_resolves_to_players_view(self):
+        r = resolve('/players')
+        self.assertEqual(r.func, serve)
+
     def test_json_served_same(self):
         # Very basic test that covers a small case
         raw = serve(HttpRequest()).content.decode('utf8')
@@ -104,6 +118,10 @@ def move_player(player_id, moves):
 class PlayersMoveReceivedTest(TestCase):
     def setUp(self):
         reset_all()
+
+    def test_maze_resolves_to_receive_view(self):
+        r = resolve('/maze/')
+        self.assertEqual(r.func, receive)
 
     def test_player_move_reflected_on_response(self):
         valid_tests_data = [
