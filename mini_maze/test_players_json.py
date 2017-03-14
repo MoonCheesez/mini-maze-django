@@ -1,14 +1,13 @@
 from django.test import TestCase
 
 from settings import *
-from setup import reset_players_json, reset_maze_json
+from setup import reset_all
 
 import json
 
 class PlayersJSONTest(TestCase):
     def setUp(self):
-        reset_players_json()
-        reset_maze_json()
+        reset_all()
 
         with open(players_json_filename, "r") as f:
             self.players_json = json.load(f)
@@ -28,6 +27,13 @@ class PlayersJSONTest(TestCase):
             self.assertIsNotNone(self.players_json[field])
 
         self.assertEqual(len(self.players_json["player_positions"]), max_players)
+
+    def test_fields_correct_type(self):
+        # This only checks the top layer
+        self.assertIsInstance(self.players_json["player_positions"], list)
+        self.assertIsInstance(self.players_json["players_joined"], list)
+        self.assertIsInstance(self.players_json["move_number"], int)
+        self.assertIsInstance(self.players_json["moves"], list)
 
     def test_players_have_x_and_y_position(self):
         for player in self.players_json["player_positions"]:
@@ -55,4 +61,4 @@ class PlayersJSONTest(TestCase):
             len(self.players_json["player_positions"]))
 
     def test_players_joined_within_settings_limits(self):
-        self.assertLessEqual(self.players_json["players_joined"], max_players)
+        self.assertEqual(len(self.players_json["players_joined"]), max_players)
