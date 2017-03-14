@@ -2,6 +2,8 @@ from django.shortcuts import render
 
 from django.http import HttpResponse, JsonResponse
 
+from django.views.decorators.csrf import csrf_exempt
+
 from settings import players_json_filename
 from setup import reset_all
 
@@ -26,13 +28,17 @@ def leave(request, player_id):
     with open(players_json_filename, "r") as f:
         players = json.load(f)
 
-    players["players_joined"][player_id-1] = False
+    players["players_joined"][int(player_id)-1] = False
 
     with open(players_json_filename, "w") as f:
         json.dump(players, f)
 
+    return HttpResponse("")
+
 def reset(request):
     reset_all()
+
+    return HttpResponse("")
 
 def serve(request):
     with open(players_json_filename, "r") as f:
@@ -40,6 +46,7 @@ def serve(request):
 
     return JsonResponse(players)
 
+@csrf_exempt
 def receive(request):
     if request.method == "POST":
         data = request.POST
