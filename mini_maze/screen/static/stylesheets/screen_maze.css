@@ -1,0 +1,52 @@
+body {
+    background-color: #DA1AFC;
+}
+
+section#maze {
+    margin-top: 20px;
+    font-size: 0px;
+    text-align: center;
+}
+
+td {
+    height: 20px;
+    width: 20px;
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+}
+
+table {
+    padding: 10px 10px 10px 10px;
+    background-color: #333;
+}
+
+table, td {
+    display: inline-block;
+}
+
+h1#current-move {
+    color: white;
+    text-align: center;
+}
+
+td#player1 {
+    background-color: #EB5153;
+}
+
+td#player2 {
+    background-color: #FBE230;
+}
+
+td#player3 {
+    background-color: #A1E736;
+}
+
+td#player4 {
+    background-color: #7B9EF8;
+}
+
+/*.box#showmaze {
+    background-color: white;
+}*/
