@@ -1,20 +1,30 @@
 from django.test import TestCase
 from django.http import HttpRequest
 
-from views import join, leave, reset
+from players.views import join, leave, reset
 
 from settings import players_json_filename, max_players
+from setup import reset_all
+
 import json
 
-class PlayersJoinAndLeaveTest(TestCase):
-    def fetch_players_joined(self):
-        players_json = json.load(players_json_filename)
-        return players_json["players_joined"]
+def fetch_players_joined():
+    with open(players_json_filename) as f:
+        players_json = json.load(f)
+    return players_json["players_joined"]
 
-    def setup_players_joined_json(self, players_joined):
-        players_json = json.load(players_json_filename)
-        players_json["players_joined"] = players_joined
-        json.dump(players_json, open(players_json_filename, "w"))
+def setup_players_joined_json(players_joined):
+    with open(players_json_filename) as f:
+        players_json = json.load(f)
+
+    players_json["players_joined"] = players_joined
+    
+    with open(players_json_filename, "w") as f:
+        json.dump(players_json, f)
+
+class PlayersJoinAndLeaveTest(TestCase):
+    def setUp(self):
+        reset_all()
 
     def test_reset_players(self):
         join(HttpRequest())
@@ -30,21 +40,21 @@ class PlayersJoinAndLeaveTest(TestCase):
         # [False, False, False, False] to [True, False, False, False]
         setup_players_joined_json([False]*4)
 
-        response = join(HttpRequest())
+        response = join(HttpRequest()).content.decode('utf8')
 
         self.assertEqual(response, "1")
 
         # [True, False, True, False] to [True, True, True, False]
         setup_players_joined_json([True, False, True, False])
 
-        response = join(HttpRequest())
+        response = join(HttpRequest()).content.decode('utf8')
 
         self.assertEqual(response, "2")
 
     def test_disallow_player_join_after_maximum_players_reached(self):
         setup_players_joined_json([True]*4)
 
-        response = join(HttpRequest())
+        response = join(HttpRequest()).content.decode('utf8')
 
         self.assertEqual(response, "max")
         self.assertEqual(fetch_players_joined(), [True]*4)
