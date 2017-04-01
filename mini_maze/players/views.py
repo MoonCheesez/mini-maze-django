@@ -52,7 +52,7 @@ def receive(request):
         data = request.POST
         
         player_id = int(data["player_no"])-1
-        moves = [int(x) for x in data["moves"]]
+        moves = [int(x) for x in data.getlist("moves")]
 
         with open(players_json_filename, "r") as f:
             players = json.load(f)
@@ -65,15 +65,15 @@ def receive(request):
         if players["move_number"]%4 != player_id%4:
             return HttpResponse("")
 
-        # Check if there are move values other than 0, 1, 2, 3, 4
-        if list(filter(lambda x: x not in range(4), moves)):
+        # Check if there are move values other than 1, 2, 3, 4
+        if list(filter(lambda x: x not in range(1, 5), moves)):
             return HttpResponse("")
 
         """
-        0 - up
-        1 - left
-        2 - right
-        3 - down
+        1 - up
+        2 - left
+        3 - right
+        4 - down
         """
         player_pos = players["player_positions"][player_id]
 
@@ -81,7 +81,7 @@ def receive(request):
         dy = [-1, 0, 0, 1]
 
         for i in range(len(moves)):
-            move = moves[i]
+            move = moves[i]-1
 
             nx = player_pos[0] + dx[move]
             ny = player_pos[1] + dy[move]
