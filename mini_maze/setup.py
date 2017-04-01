@@ -67,9 +67,9 @@ def reset_maze_json():
 
     submaze_dimension = (submaze_height-1, submaze_width-1)
     m1 = generate_maze(submaze_height, submaze_width, (0, 0), submaze_dimension)
-    m2 = generate_maze(submaze_height, submaze_width, (submaze_height-1, 0), submaze_dimension)
-    m3 = generate_maze(submaze_height, submaze_width, submaze_dimension, submaze_dimension)
-    m4 = generate_maze(submaze_height, submaze_width, (0, submaze_width-1), submaze_dimension)
+    m2 = generate_maze(submaze_height, submaze_width, (submaze_width-1, 0), (0, submaze_height-1))
+    m3 = generate_maze(submaze_height, submaze_width, (0, submaze_height-1), (submaze_width-1, 0))
+    m4 = generate_maze(submaze_height, submaze_width, submaze_dimension, (0, 0))
 
     # Combine mazes
     m = m1
