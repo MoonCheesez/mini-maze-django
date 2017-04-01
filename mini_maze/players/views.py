@@ -51,20 +51,23 @@ def receive(request):
     if request.method == "POST":
         data = request.POST
         
-        player_id = data["player_no"]-1
-        moves = data["moves"]
+        player_id = int(data["player_no"])-1
+        moves = [int(x) for x in data["moves"]]
 
         with open(players_json_filename, "r") as f:
             players = json.load(f)
         with open(maze_json_filename, "r") as f:
             maze = json.load(f)["maze"]
 
+        if False in players["players_joined"]:
+            return HttpResponse("")
+
         if players["move_number"]%4 != player_id%4:
-            return
+            return HttpResponse("")
 
         # Check if there are move values other than 0, 1, 2, 3, 4
         if list(filter(lambda x: x not in range(4), moves)):
-            return
+            return HttpResponse("")
 
         """
         0 - up
@@ -95,3 +98,5 @@ def receive(request):
 
         with open(players_json_filename, "w") as f:
             json.dump(players, f)
+
+        return HttpResponse("")
