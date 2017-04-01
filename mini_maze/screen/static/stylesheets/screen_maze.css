@@ -47,6 +47,10 @@ td#player4 {
     background-color: #7B9EF8;
 }
 
-/*.box#showmaze {
+td#showmaze {
     background-color: white;
-}*/
+}
+
+td#center {
+    background-color: grey;
+}

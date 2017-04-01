@@ -1,4 +1,4 @@
-// Functxon to set the player positions into HTML
+// Function to set the player positions into HTML
 function setPlayerPosition(player_value, player_pos) {
     var x = player_pos[0];
     var y = player_pos[1];
@@ -17,8 +17,8 @@ function getNextLocation(move, currentPos) {
     var dx = [0, -1, 1, 0];
     var dy = [-1, 0, 0, 1];
 
-    var nx = currentPos[0] + dx[move];
-    var ny = currentPos[1] + dy[move];
+    var nx = currentPos[0] + dx[move-1];
+    var ny = currentPos[1] + dy[move-1];
 
     if (nx >= 0 && ny >= 0) {
         return [nx, ny];
@@ -57,8 +57,16 @@ $(document).ready(function() {
         };
 
 
-        // Show maze
+        // Show center
         var maze = d["maze"];
+        var x = maze.length/2;
+        var y = maze[0].length/2;
+        setPlayerPosition("center", [x, y]);
+        setPlayerPosition("center", [x-1, y]);
+        setPlayerPosition("center", [x, y-1]);
+        setPlayerPosition("center", [x-1, y-1]);
+
+        // Show maze
         for (var y = maze.length - 1; y >= 0; y--) {
             for (var x = maze[y].length - 1; x >= 0; x--) {
                 if (maze[y][x] == 0) {
@@ -66,7 +74,6 @@ $(document).ready(function() {
                 };
             };
         };
-
     });
 
     window.setInterval(function() {
