@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.http import HttpRequest
+from django.http import HttpRequest, QueryDict
 
 from django.core.urlresolvers import resolve
 
@@ -108,16 +108,17 @@ class PlayersJSONServedTest(TestCase):
 def move_player(player_id, moves):
     request = HttpRequest()
     request.method = "POST"
-    request.POST = {
-        "player_no": player_id,
-        "moves": moves
-    }
+    request.POST = QueryDict("", True)
+
+    request.POST["player_no"] = player_id
+    request.POST.setlist("moves", moves)
 
     receive(request)
 
 class PlayersMoveReceivedTest(TestCase):
     def setUp(self):
         reset_all()
+        setup_players_joined_json([True]*4)
 
     def test_maze_resolves_to_receive_view(self):
         r = resolve('/maze/')
@@ -125,10 +126,10 @@ class PlayersMoveReceivedTest(TestCase):
 
     def test_player_move_reflected_on_response(self):
         valid_tests_data = [
-            (1, [0, 1, 2, 3]),
-            (2, [2, 3, 1, 0]),
-            (3, [0, 0, 1, 3, 2]),
-            (4, [1])
+            (1, [1, 2, 3, 4]),
+            (2, [3, 4, 2, 1]),
+            (3, [1, 1, 2, 4, 3]),
+            (4, [2])
         ]
 
         for test in valid_tests_data:
@@ -140,16 +141,16 @@ class PlayersMoveReceivedTest(TestCase):
             with open(players_json_filename, "r") as f:
                 players = json.load(f)
 
-            self.assertEqual(players["moves"], moves)
+            self.assertEqual([abs(x) for x in players["moves"]], moves)
             self.assertEqual(players["move_number"]%4, player_id%4)
 
         reset_all()
 
         invalid_test_data = [
-            (2, [0]),
-            (4, [1]),
-            (3, [2]),
-            (-1, [3]),
+            (2, [1]),
+            (4, [2]),
+            (3, [3]),
+            (-1, [4]),
             (1, [10]),
         ]
 
