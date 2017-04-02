@@ -62,8 +62,8 @@ class ScreenTest(TestCase):
 
         self.assertIn('<section id="maze">', html)
         
-        self.assertEqual(html.count('<tr>'), height)
-        self.assertEqual(html.count('<td>'), width*height)
+        self.assertEqual(html.count('<tr>'), height+max_players)
+        self.assertEqual(html.count('<td'), width*height + max_players*2)
 
         self.assertNotIn('<h1>Waiting for ', html)
         self.assertNotIn(' more players to join...</h1>', html)
