@@ -1,5 +1,6 @@
 from settings import *
 
+import sys
 import json
 import random
 
@@ -86,3 +87,12 @@ def reset_maze_json():
 def reset_all():
     reset_players_json()
     reset_maze_json()
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "maze":
+            reset_maze_json()
+        elif sys.argv[1] == "players":
+            reset_players_json()
+        elif sys.argv[1] == "all":
+            reset_all()
