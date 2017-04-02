@@ -24,12 +24,34 @@
             <h1>Waiting for {{ players_left }} more players to join...</h1>
         </section>
         {% else %}
+        <section id="legend">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Player 1:</td>
+                        <td class="box" id="player1"></td>
+                    </tr>
+                    <tr>
+                        <td>Player 2:</td>
+                        <td class="box" id="player2"></td>
+                    </tr>
+                    <tr>
+                        <td>Player 3:</td>
+                        <td class="box" id="player3"></td>
+                    </tr>
+                    <tr>
+                        <td>Player 4:</td>
+                        <td class="box" id="player4"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
         <section id="maze">
             <table>
                 {% for y in height %}
                 <tr>
                     {% for x in width %}
-                    <td></td>
+                    <td class="box"></td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
