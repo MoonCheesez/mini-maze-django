@@ -44,6 +44,10 @@ def serve(request):
     with open(players_json_filename, "r") as f:
         players = json.load(f)
 
+    # Show maze
+    #with open(maze_json_filename, "r") as f:
+    #    players["maze"] = json.load(f)["maze"]
+
     return JsonResponse(players)
 
 @csrf_exempt
