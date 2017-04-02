@@ -58,15 +58,16 @@ $(document).ready(function() {
 
 
         // Show center
-        var maze = d["maze"];
-        var x = maze.length/2;
-        var y = maze[0].length/2;
+        var rows = document.getElementById("maze").getElementsByTagName("tr");
+        var x = rows.length/2;
+        var y = rows[0].getElementsByTagName("td").length/2;
         setPlayerPosition("center", [x, y]);
         setPlayerPosition("center", [x-1, y]);
         setPlayerPosition("center", [x, y-1]);
         setPlayerPosition("center", [x-1, y-1]);
 
         // Show maze
+        var maze = d["maze"];
         for (var y = maze.length - 1; y >= 0; y--) {
             for (var x = maze[y].length - 1; x >= 0; x--) {
                 if (maze[y][x] == 0) {
@@ -85,8 +86,8 @@ $(document).ready(function() {
             moves = data["moves"];
             
             if (moves.length > 0 && moves[0] != playerMoving) {
-                moves = data["moves"].slice(1, data["moves"].length);
-                playerMoving = data["moves"][0];
+                moves = data["moves"];
+                playerMoving = [4, 1, 2, 3][data["move_number"]%4];
                 startup = false;
             }
 
@@ -102,10 +103,10 @@ $(document).ready(function() {
             // Set new location
             playerPositions[playerMoving-1] = nextPosition;
 
-            displayString(moveTypes[Math.abs(move)]);
-        } else if (playerMoving != data["moves"][0]) {
-            moves = data["moves"].slice(1, data["moves"].length);
-            playerMoving = data["moves"][0];
+            displayString(moveTypes[Math.abs(move)-1]);
+        } else if (playerMoving != [4, 1, 2, 3][data["move_number"]%4]) {
+            moves = data["moves"];
+            playerMoving = [4, 1, 2, 3][data["move_number"]%4];
         } else {
             displayString("");
         }
