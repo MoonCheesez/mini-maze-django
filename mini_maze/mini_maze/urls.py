@@ -18,4 +18,5 @@ from django.conf.urls import url, include
 urlpatterns = [
     url(r'^', include('screen.urls')),
     url(r'^', include('players.urls')),
+    url(r'^', include('player_control.urls')),
 ]

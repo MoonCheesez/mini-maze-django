@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Control Player</title>
+        {% load static %}
+        <!-- Jquery -->
+        <script src="{% static 'jquery/jquery.js' %}"></script>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}"/>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/npm.js' %}"></script>
+
+        <script src="{% static 'javascript/player_control.js' %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'stylesheets/player_control.css' %}">
+    </head>
+    <body>
+        <section id="description">
+            <h1 id="player-no"></h1>
+            <div></div>
+        </section>
+        <section id="maze-grid">
+            <table>
+                {% for y in height %}
+                <tr>
+                    {% for x in width %}
+                    <td class="box">
+                        <button></button>
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </section>
+        <section id="commands">
+            <h1>Commands to run:</h1>
+            <div></div>
+        </section>
+        <section id="controller">
+            <button id="up"></button>
+            <button id="down"></button>
+            <button id="left"></button>
+            <button id="right"></button>
+        </section>
+    </body>
+</html>

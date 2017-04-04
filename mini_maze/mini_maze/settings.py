@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'screen',
     'players',
+    'player_control',
 ]
 
 MIDDLEWARE = [
