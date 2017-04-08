@@ -8,23 +8,40 @@ $(document).ready(function() {
     var colour = colours[playersLeft-1];
     playersLeftDOM.style.color = colour;
 
+    playersLeftDOM.className = "pop-in";
     playersLeftDOM.style.visibility = "visible";
 
     // Check for updates
-    var playersJoined;
     window.setInterval(function() {
-        var newPlayersJoined;
+        var newPlayersLeft;
         $.getJSON("/players", function(d) {
             var tmp = d["players_joined"];
-            //tmp.count(true)
-            newPlayersJoined = tmp.reduce(function(total,x){return x==true ? total+1 : total}, 0);
-        });
+            //tmp.count(false)
+            newPlayersLeft = tmp.reduce(function(total,x){return x==false ? total+1 : total}, 0);
+            if (newPlayersLeft != playersLeft && newPlayersLeft != 0) {
+                function changeAndPopOut() {
+                    playersLeft = newPlayersLeft;
+                    // pluralize 'players' if needed
+                    if (playersLeft > 1) {
+                        document.getElementById("more-players").textContent = "players";
+                    } else {
+                        document.getElementById("more-players").textContent = "player";
+                    }
 
-        if (newPlayersJoined != playersJoined) {
-            // animate
-            playersJoined = newPlayersJoined;
-            document.getElementById("players-left").textContent = playersJoined.toString;
-        }
+                    playersLeftDOM.textContent = playersLeft.toString();
+                    playersLeftDOM.style.color = colours[playersLeft-1];
+                    playersLeftDOM.className = "pop-in";
+                }
+
+                playersLeftDOM.addEventListener("animationend", changeAndPopOut, false);
+                playersLeftDOM.addEventListener("webkitAnimationEnd", changeAndPopOut, false);
+                playersLeftDOM.addEventListener("MSAnimationEnd", changeAndPopOut, false);
+                
+                playersLeftDOM.className = "pop-out";
+            } else if (newPlayersLeft == 0) {
+                window.location.reload();
+            }
+        });
 
     }, 500);
 });

@@ -25,11 +25,13 @@ h1 {
     font-size: 100pt;
     font-weight: bold;
     visibility: hidden;
-    -webkit-animation:pop-in 0.2s;
-    -moz-animation:pop-in 0.2s;
-    -ms-animation:pop-in 0.2s;
 }
 
+.pop-in {
+    -webkit-animation: pop-in 0.2s;
+    -moz-animation: pop-in 0.2s;
+    -ms-animation: pop-in 0.2s;
+}
 @-webkit-keyframes pop-in {
     0% { opacity: 0; -webkit-transform: scale(0.5); }
     90% { opacity: 1; -webkit-transform: scale(1.1); }
@@ -46,3 +48,20 @@ h1 {
     100% { transform: scale(1); }
 }
 
+.pop-out {
+    -webkit-animation: pop-out 0.2s;
+    -moz-animation: pop-out 0.2s;
+    -ms-animation: pop-out 0.2s;
+}
+@-webkit-keyframes pop-out {
+    0% { -webkit-transform: scale(1); }
+    100% { opacity: 0; -webkit-transform: scale(0.5); }
+}
+@-moz-keyframes pop-out {
+    0% { -moz-transform: scale(1); }
+    100% { opacity: 0; -moz-transform: scale(0.5); }
+}
+@keyframes pop-out {
+    0% { transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.5); }
+}
