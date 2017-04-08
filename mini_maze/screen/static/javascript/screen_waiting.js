@@ -39,7 +39,20 @@ $(document).ready(function() {
                 
                 playersLeftDOM.className = "pop-out";
             } else if (newPlayersLeft == 0) {
-                window.location.reload();
+                function popOut() {
+                    document.getElementById("waiting").style.visibility = "hidden";
+                    playersLeftDOM.style.visibility = "visible";
+                    playersLeftDOM.textContent = "START!";
+                    playersLeftDOM.style.color = "#F58081";
+                    playersLeftDOM.className = "pop-in";
+                    setTimeout(function() {window.location.reload()}, 300);
+                }
+
+                playersLeftDOM.addEventListener("animationend", popOut, false);
+                playersLeftDOM.addEventListener("webkitAnimationEnd", popOut, false);
+                playersLeftDOM.addEventListener("MSAnimationEnd", popOut, false);
+
+                playersLeftDOM.className = "pop-out";
             }
         });
 
