@@ -37,40 +37,48 @@
             <h1>more <span id="players-text">player{{ players_left|pluralize }}</span>!</h1>
         </section>
         {% else %}
-        <section id="legend">
-            <table>
-                <tbody>
+        <div class="center">
+            <div class="sidebar">
+                <section id="legend">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="player" id="player1"></td>
+                                <td>Player 1</td>
+                            </tr>
+                            <tr>
+                                <td class="player" id="player2"></td>
+                                <td>Player 2</td>
+                            </tr>
+                            <tr>
+                                <td class="player" id="player3"></td>
+                                <td>Player 3</td>
+                            </tr>
+                            <tr>
+                                <td class="player" id="player4"></td>
+                                <td>Player 4</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <section id="player-move">
+                    <h1>Player</h1>
+                    <h1 id="player-move-text"></h1>
+                </section>
+            </div>
+            <section id="maze">
+                <table>
+                    {% for y in height %}
                     <tr>
-                        <td>Player 1:</td>
-                        <td class="box" id="player1"></td>
+                        {% for x in width %}
+                        <td></td>
+                        {% endfor %}
                     </tr>
-                    <tr>
-                        <td>Player 2:</td>
-                        <td class="box" id="player2"></td>
-                    </tr>
-                    <tr>
-                        <td>Player 3:</td>
-                        <td class="box" id="player3"></td>
-                    </tr>
-                    <tr>
-                        <td>Player 4:</td>
-                        <td class="box" id="player4"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-        <section id="maze">
-            <table>
-                {% for y in height %}
-                <tr>
-                    {% for x in width %}
-                    <td class="box"></td>
                     {% endfor %}
-                </tr>
-                {% endfor %}
-            </table>
-        </section>
-        <h1 id="current-move"></h1>
+                </table>
+            </section>
+            <h1 id="current-move"></h1>
+        </div>
         {% endif %}
     </body>
 </html>

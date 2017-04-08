@@ -34,6 +34,14 @@ function displayString(value) {
     document.getElementById("current-move").innerHTML = value;
 }
 
+function getPlayerMoving(move_num) {
+    if (move_num == 0) {
+        return 1;
+    } else {
+        return [4, 1, 2, 3][move_num];
+    }
+}
+
 var startup = true;
 
 var playerPositions = [null, null, null, null];
@@ -45,7 +53,6 @@ var playerMoving;
 
 var data;
 $(document).ready(function() {
-
     // Setup
     $.getJSON("/players", function(d) {
         playerMoving = d["moves"][0]
@@ -56,7 +63,6 @@ $(document).ready(function() {
             playerPositions[i] = newPosition;
         };
 
-
         // Show center
         var rows = document.getElementById("maze").getElementsByTagName("tr");
         var x = rows.length/2;
@@ -65,6 +71,9 @@ $(document).ready(function() {
         setPlayerPosition("center", [x-1, y]);
         setPlayerPosition("center", [x, y-1]);
         setPlayerPosition("center", [x-1, y-1]);
+
+        // Show player's turn
+        document.getElementById("player-move-text").textContent = getPlayerMoving(d["move_number"]);
 
         // Show maze
         var maze = d["maze"];
@@ -79,36 +88,36 @@ $(document).ready(function() {
 
     window.setInterval(function() {
         $.getJSON("/players", function(d) {
-            data = d;
-        });
+            if (startup) {
+                moves = d["moves"];
+                
+                if (moves.length > 0 && moves[0] != playerMoving) {
+                    moves = d["moves"];
+                    playerMoving = getPlayerMoving(d["move_number"]);
+                    startup = false;
+                }
 
-        if (startup) {
-            moves = data["moves"];
-            
-            if (moves.length > 0 && moves[0] != playerMoving) {
-                moves = data["moves"];
-                playerMoving = [4, 1, 2, 3][data["move_number"]%4];
-                startup = false;
+            } else if (moves.length > 0) {
+                move = moves.shift();
+
+                var currentPosition = playerPositions[playerMoving-1];
+                var nextPosition = getNextLocation(move, currentPosition);
+
+                movePlayer(playerValues[playerMoving-1],
+                    currentPosition, nextPosition);
+                
+                // Set new location
+                playerPositions[playerMoving-1] = nextPosition;
+
+                displayString(moveTypes[Math.abs(move)-1]);
+            } else if (playerMoving != getPlayerMoving(d["move_number"])) {
+                moves = d["moves"];
+                playerMoving = getPlayerMoving(d["move_number"]);
+            } else {
+                displayString("");
+                // Show player's turn
+                document.getElementById("player-move-text").textContent = getPlayerMoving(d["move_number"]);
             }
-
-        } else if (moves.length > 0) {
-            move = moves.shift();
-
-            var currentPosition = playerPositions[playerMoving-1];
-            var nextPosition = getNextLocation(move, currentPosition);
-
-            movePlayer(playerValues[playerMoving-1],
-                currentPosition, nextPosition);
-            
-            // Set new location
-            playerPositions[playerMoving-1] = nextPosition;
-
-            displayString(moveTypes[Math.abs(move)-1]);
-        } else if (playerMoving != [4, 1, 2, 3][data["move_number"]%4]) {
-            moves = data["moves"];
-            playerMoving = [4, 1, 2, 3][data["move_number"]%4];
-        } else {
-            displayString("");
-        }
+        });
     }, 1000);
 });

@@ -1,62 +1,100 @@
 body {
-    background-color: #DA1AFC;
+    font-family: 'Quattrocento Sans', Helvetica;
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
 }
 
-.box {
-    height: 20px;
-    width: 20px;
-
-    border-style: solid;
-    border-width: 1px;
-    border-color: white;
-}
-
-section#maze {
-    margin-top: 20px;
-    font-size: 0px;
+h1#current-move {
     text-align: center;
 }
 
-section#maze table {
-    padding: 10px 10px 10px 10px;
-    background-color: #333;
+div.center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* Maze Section */
+section#maze {
+    font-size: 0px;
+    text-align: center;
 }
 
 section#maze table, td {
     display: inline-block;
 }
 
-section#legend table {
-    display: inline;
-    position: absolute;
-    color: white;
+section#maze td {
+    height: 15px;
+    width: 15px;
+
+    background-color: #53585F;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #85888D;
+    border-radius: 3px;
+
+    margin: 2px 2px 2px 2px;
 }
 
-h1#current-move {
-    color: white;
+/* Legend Section */
+section#legend table {
+    display: inline;
+}
+
+section#legend td {
+    padding: 2px;
+}
+
+section#legend .player {
+    height: 20px;
+    width: 20px;
+
+    margin-right: 10px;
+
+    border-style: solid;
+    border-radius: 5px;
+}
+
+/* Player Move Section */
+div.sidebar {
+    padding-left: 20px;
+    position: absolute;
+}
+
+section#player-move {
     text-align: center;
 }
 
+/* Players */
 td#player1 {
-    background-color: #EB5153;
+    border-color: #00CDF1 !important;
+    background-color: #00CDF1 !important;
 }
 
 td#player2 {
-    background-color: #FBE230;
+    border-color: #C491F1 !important;
+    background-color: #C491F1 !important;
 }
 
 td#player3 {
-    background-color: #A1E736;
+    border-color: #FFBAE4 !important;
+    background-color: #FFBAE4 !important;
 }
 
 td#player4 {
-    background-color: #7B9EF8;
+    border-color: #FFB98B !important;
+    background-color: #FFB98B !important;
 }
 
+/* Other colourings */
 td#showmaze {
-    background-color: white;
+    border-color: black !important;
+    background-color: black !important;
 }
 
 td#center {
-    background-color: grey;
+    border-color: #F1F6FF !important;
+    background-color: #C0CADB !important;
 }
