@@ -1,11 +1,48 @@
 body {
-    background-color: #DA1AFC;
+    font-family: 'Quattrocento Sans', Helvetica;
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+section#waiting {
+    display: table-cell;
+    vertical-align: middle;
 }
 
 /* Waiting for players text */
 h1 {
-    color: white;
-    font-family: Arial;
-    font-size: 40px;
+    color: #65E686;
+    font-size: 32pt;
     text-align: center;
+
+    margin-top: 55px;
+    margin-bottom: 55px;
 }
+
+#players-left {
+    font-size: 100pt;
+    font-weight: bold;
+    visibility: hidden;
+    -webkit-animation:pop-in 0.2s;
+    -moz-animation:pop-in 0.2s;
+    -ms-animation:pop-in 0.2s;
+}
+
+@-webkit-keyframes pop-in {
+    0% { opacity: 0; -webkit-transform: scale(0.5); }
+    90% { opacity: 1; -webkit-transform: scale(1.1); }
+    100% { -webkit-transform: scale(1); }
+}
+@-moz-keyframes pop-in {
+    0% { opacity: 0; -moz-transform: scale(0.5); }
+    90% { opacity: 1; -moz-transform: scale(1.1); }
+    100% { -moz-transform: scale(1); }
+}
+@keyframes pop-in {
+    0% { opacity: 0; transform: scale(0.5); }
+    90% { opacity: 1; transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+

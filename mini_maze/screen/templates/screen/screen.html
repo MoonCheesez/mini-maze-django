@@ -3,6 +3,17 @@
     <head>
         <title>Mini Maze</title>
         {% load static %}
+        <!-- Quattrocento Sans -->
+        <style>
+        @font-face {
+          font-family: 'Quattrocento Sans';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Quattrocento Sans'), local('QuattrocentoSans'), url({% static 'fonts/quattrocento-sans.woff2'%}) format('woff2');
+          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+        }
+        </style>
+
         <!-- Jquery -->
         <script src="{% static 'jquery/jquery.js' %}"></script>
         <!-- Bootstrap -->
@@ -21,7 +32,9 @@
     <body>
         {% if players_left != 0 %}
         <section id="waiting">
-            <h1>Waiting for {{ players_left }} more players to join...</h1>
+            <h1>Waiting for</h1>
+            <h1 id="players-left">{{ players_left }}</h1>
+            <h1>more player{{ players_left|pluralize }}!</h1>
         </section>
         {% else %}
         <section id="legend">
