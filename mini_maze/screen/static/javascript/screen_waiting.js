@@ -1,60 +1,63 @@
+var colors = ["#FFB98B", "#FFBAE4", "#C491F1", "#00CDF1"];
+
+function addAnimationEnd(DOM, fn) {
+    DOM.addEventListener("animationend", fn, false);
+    DOM.addEventListener("webkitAnimationEnd", fn, false);
+    DOM.addEventListener("MSAnimationEnd", fn, false);
+}
+
+function setTextColor(DOM, text, color) {
+    DOM.textContent = text;
+    DOM.style.color = color;
+}
+
+function count(list, item) {
+    return list.reduce(function(total,x){return x==item ? total+1 : total}, 0)
+}
+
 $(document).ready(function() {
-    // Set the colour of the number of players left
-    var colours = ["#FFB98B", "#FFBAE4", "#C491F1", "#00CDF1"];
-    
     var playersLeftDOM = document.getElementById("players-left");
+    var playersTextDOM = document.getElementById("players-text");
+
     var playersLeft = parseInt(playersLeftDOM.textContent);
-    
-    var colour = colours[playersLeft-1];
-    playersLeftDOM.style.color = colour;
+    playersLeftDOM.style.color = colors[playersLeft-1];
 
     playersLeftDOM.className = "pop-in";
     playersLeftDOM.style.visibility = "visible";
 
     // Check for updates
-    window.setInterval(function() {
-        var newPlayersLeft;
+    var interval = window.setInterval(function() {
         $.getJSON("/players", function(d) {
-            var tmp = d["players_joined"];
-            //tmp.count(false)
-            newPlayersLeft = tmp.reduce(function(total,x){return x==false ? total+1 : total}, 0);
-            if (newPlayersLeft != playersLeft && newPlayersLeft != 0) {
-                function changeAndPopOut() {
-                    playersLeft = newPlayersLeft;
-                    // pluralize 'players' if needed
-                    if (playersLeft > 1) {
-                        document.getElementById("more-players").textContent = "players";
-                    } else {
-                        document.getElementById("more-players").textContent = "player";
-                    }
+            var newPlayersLeft = count(d["players_joined"], false);
 
-                    playersLeftDOM.textContent = playersLeft.toString();
-                    playersLeftDOM.style.color = colours[playersLeft-1];
+            if (newPlayersLeft != playersLeft && newPlayersLeft != 0) {
+                playersLeft = newPlayersLeft;
+
+                function changeAndPopOut() {
+                    // pluralize 'players' if needed
+                    playersTextDOM.textContent = playersLeft > 1? "players":"player";
+
+                    setTextColor(playersLeftDOM, playersLeft, colors[playersLeft-1]);
                     playersLeftDOM.className = "pop-in";
                 }
 
-                playersLeftDOM.addEventListener("animationend", changeAndPopOut, false);
-                playersLeftDOM.addEventListener("webkitAnimationEnd", changeAndPopOut, false);
-                playersLeftDOM.addEventListener("MSAnimationEnd", changeAndPopOut, false);
-                
+                addAnimationEnd(playersLeftDOM, changeAndPopOut);
                 playersLeftDOM.className = "pop-out";
             } else if (newPlayersLeft == 0) {
                 function popOut() {
                     document.getElementById("waiting").style.visibility = "hidden";
-                    playersLeftDOM.style.visibility = "visible";
-                    playersLeftDOM.textContent = "START!";
-                    playersLeftDOM.style.color = "#F58081";
+                    
+                    setTextColor(playersLeftDOM, "START!", "#F58081");
                     playersLeftDOM.className = "pop-in";
+                    playersLeftDOM.style.visibility = "visible";
                     setTimeout(function() {window.location.reload()}, 300);
                 }
 
-                playersLeftDOM.addEventListener("animationend", popOut, false);
-                playersLeftDOM.addEventListener("webkitAnimationEnd", popOut, false);
-                playersLeftDOM.addEventListener("MSAnimationEnd", popOut, false);
-
+                addAnimationEnd(playersLeftDOM, popOut);
                 playersLeftDOM.className = "pop-out";
+
+                window.clearInterval(interval);
             }
         });
-
-    }, 500);
+    }, 500);;
 });
