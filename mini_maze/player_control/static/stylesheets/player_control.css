@@ -1,0 +1,215 @@
+body {
+    font-family: 'Quattrocento Sans', Helvetica;
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+/* Description Section */
+section#description {
+    margin-left: 10px;
+    margin-top: 10px;
+    position: absolute;
+    vertical-align: middle;
+}
+
+section#description * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+section#description div#player-legend {
+    height: 20px;
+    width: 20px;
+
+    margin-right: 10px;
+
+    border-style: solid;
+    border-radius: 5px;
+}
+
+section#description h3#player-no {
+    margin: 0;
+}
+
+/* Maze Grid Section */
+section#maze-grid {
+    font-size: 0px;
+    text-align: center;
+}
+
+section#maze-grid table, button {
+    /*display: inline-block;*/
+}
+
+section#maze-grid button {
+    height: 15px;
+    width: 15px;
+
+    background-color: #53585F;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #85888D;
+    border-radius: 3px;
+
+    margin: 3px 3px 3px 3px;
+}
+
+/* Arrow Keys */
+section#controller {
+    margin-top: 20px;
+    display: inline-block;
+}
+
+section#controller button {
+    margin-left: 20px;
+    margin-right: 20px;
+
+    height: 50px;
+    width: 50px;
+
+    color: #727984;
+    background-color: white;
+
+    font-size: 20px;
+    vertical-align: middle;
+
+    border-width: 4px;
+    border-style: solid;
+    border-color: #727984;
+    border-radius: 8px;
+
+    box-shadow: 0px 2px 2px;
+    transition: background-color color;
+    transition-duration: 0.2s;
+}
+
+section#controller button:hover {
+    background-color: #727984;
+    color: white;
+}
+
+/* Commands Section */
+section#commands div#command-box {
+    height: 355px;
+    width: 365px;
+
+    padding: 10px 10px 5px 10px;
+
+    color: #53585F;
+    background-color: #EAECF0;
+
+    font-family: 'Courier New', Courier;
+    text-align: left;
+
+    border-width: 3px;
+    border-style: solid;
+    border-color: #AEB8CA;
+    border-radius: 8px;
+
+    overflow-y: scroll;
+
+    counter-reset: item;
+}
+
+section#commands div#command-box li {
+    list-style-type: none;
+}
+
+section#commands div#command-box ol {
+    padding-left: 0px;
+}
+
+section#commands div#command-box ol li:before {
+    content: counter(item) ". ";
+    counter-increment: item;
+    color: #A6AAA9;
+}
+
+section#commands button {
+    margin-top: 20px;
+
+    height: 30px;
+    width: 160px;
+
+    font-family: "Avenir Next", Helvetica;
+
+    background-color: white;
+    color: #A6AAA9;
+
+    white-space: pre;
+
+    border-width: 3px;
+    border-style: solid;
+    border-color: #A6AAA9;
+    border-radius: 8px;
+
+
+    transition: background-color color border-color;
+    transition-duration: 0.2s;
+}
+
+section#commands button#go:hover {
+    background-color: #28E53A;
+    border-color: #28E53A;
+    color: white;
+}
+
+section#commands button#clear:hover {
+    background-color: #C82506;
+    border-color: #C82506;
+    color: white;
+}
+
+section#commands button#go {
+    margin-right: 20px;
+}
+
+section#commands button#clear {
+    margin-left: 20px;
+}
+
+/* Players */
+.player1 {
+    border-color: #00CDF1 !important;
+    background-color: #00CDF1 !important;
+}
+
+.player2 {
+    border-color: #C491F1 !important;
+    background-color: #C491F1 !important;
+}
+
+.player3 {
+    border-color: #FFBAE4 !important;
+    background-color: #FFBAE4 !important;
+}
+
+.player4 {
+    border-color: #FFB98B !important;
+    background-color: #FFB98B !important;
+}
+
+/* Other colourings */
+.showmaze {
+    border-color: black !important;
+    background-color: black !important;
+}
+
+.center {
+    border-color: #F1F6FF !important;
+    background-color: #C0CADB !important;
+}
+
+body > div.container-fluid {
+    margin-top: 50px;
+}
+
+body > div.container-fluid > div {
+    text-align: center;
+}
+
+body > div.container-fluid > div * {
+    margin: auto;
+}
