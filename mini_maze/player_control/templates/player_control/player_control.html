@@ -46,11 +46,11 @@
                             {% for x in width %}
                             {% if forloop.parentloop.last and forloop.last %}
                             <td class="box">
-                                <button class="center"></button>
+                                <button class="center"><div class="joint1"></div><div class="joint2"></div></button>
                             </td>
                             {% else %}
                             <td class="box">
-                                <button></button>
+                                <button><div class="joint1"></div><div class="joint2"></div></button>
                             </td>
                             {% endif %}
                             {% endfor %}
@@ -59,21 +59,17 @@
                     </table>
                 </section>
                 <section id="controller">
-                    <button id="up"></button>
-                    <button id="down"></button>
-                    <button id="left"></button>
-                    <button id="right"></button>
+                    <button id="up" onclick="moveUp()">U</button>
+                    <button id="down" onclick="moveDown()">D</button>
+                    <button id="left" onclick="moveLeft()">L</button>
+                    <button id="right" onclick="moveRight()">R</button>
                 </section>
             </div>
 
             <div class="col-md-5">
                 <section id="commands">
                     <div id="command-box">
-                        <ol>
-                            <li>turnLeft()</li>
-                            <li>turnLeft()</li>
-                            <li>turnLeft()</li>
-                        </ol>
+                        <ol></ol>
                     </div>
                     <button id="go">G O !</button>
                     <button id="clear">C L E A R   A L L</button>

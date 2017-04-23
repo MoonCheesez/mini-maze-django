@@ -39,10 +39,6 @@ section#maze-grid {
     text-align: center;
 }
 
-section#maze-grid table, button {
-    /*display: inline-block;*/
-}
-
 section#maze-grid button {
     height: 15px;
     width: 15px;
@@ -54,6 +50,47 @@ section#maze-grid button {
     border-radius: 3px;
 
     margin: 3px 3px 3px 3px;
+}
+
+/* Pathing System */
+section#maze-grid button.blocked {
+    background-color: red;
+}
+
+section#maze-grid div.joint1, div.joint2 {
+    display: none;
+    position: absolute;
+    width: 4px;
+    height: 10px;
+    background-color: white;
+}
+
+.from-left {
+    margin-left:-5px !important;
+    margin-top: -5px !important;
+    -webkit-transform: rotate(90deg) !important;
+    -moz-transform: rotate(90deg) !important;
+    transform: rotate(90deg) !important;
+}
+
+.from-right {
+    margin-left: 1px !important;
+    margin-top: -5px !important;
+    -webkit-transform: rotate(-90deg) !important;
+    -moz-transform: rotate(-90deg) !important;
+    transform: rotate(-90deg) !important;
+}
+
+.from-top {
+    margin-left: -2px !important;
+    margin-top: -10px !important;
+    -webkit-transform: rotate(0deg) !important;
+    -moz-transform: rotate(0deg) !important;
+    transform: rotate(0deg) !important;
+}
+
+.from-bottom {
+    margin-left: -2px !important;
 }
 
 /* Arrow Keys */
@@ -115,6 +152,7 @@ section#commands div#command-box {
 
 section#commands div#command-box li {
     list-style-type: none;
+    cursor: pointer;
 }
 
 section#commands div#command-box ol {
